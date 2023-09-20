@@ -2,11 +2,11 @@ import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-type Props = {
+type TProps = {
   onPress?: () => void;
 };
 
-const AddButton: React.FC<Props> = ({ onPress }) => {
+const AddButton: React.FC<TProps> = ({ onPress }) => {
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <MaterialIcons name="add" size={27.5} color="white" />

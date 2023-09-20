@@ -3,6 +3,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { DataContextProvider } from "@/state/DataContext";
 import LoansScreen from "@/screens/Loans";
 import LoaneesScreen from "@/screens/Loanees";
 import AddScreen from "@/screens/Add";
@@ -62,23 +63,25 @@ export default function App() {
   return (
     <>
       <StatusBar />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="add"
-            component={AddScreen}
-            options={{
-              title: "Add",
-              presentation: "modal",
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <DataContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="home"
+              component={Home}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="add"
+              component={AddScreen}
+              options={{
+                title: "Add",
+                presentation: "modal",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </DataContextProvider>
     </>
   );
 }
