@@ -1,20 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { MaterialIcons } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import LoansScreen from "@/screens/Loans";
+import LoaneesScreen from "@/screens/Loanees";
+
+export type RootTabParamList = {
+  loans: undefined;
+  loanees: undefined;
+};
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar />
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen
+            name="loans"
+            component={LoansScreen}
+            options={{
+              title: "Loans",
+              tabBarIcon: ({ size, color }) => (
+                <MaterialIcons name="attach-money" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="loanees"
+            component={LoaneesScreen}
+            options={{
+              title: "Loanees",
+              tabBarIcon: ({ size, color }) => (
+                <MaterialIcons name="people" size={size} color={color} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
