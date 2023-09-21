@@ -6,12 +6,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DataContextProvider } from "@/state/DataContext";
 import LoansScreen from "@/screens/Loans";
 import LoaneesScreen from "@/screens/Loanees";
-import AddScreen from "@/screens/Add";
+import ManageScreen from "@/screens/Manage";
 import AddButton from "@/components/AddButton";
 
 export type RootStackParamList = {
   home: undefined;
-  add: undefined;
+  manage: { id?: string };
 };
 
 export type HomeTabParamList = {
@@ -41,7 +41,7 @@ function Home() {
         component={AddButton}
         options={({ navigation }) => ({
           tabBarButton: () => (
-            <AddButton onPress={() => navigation.navigate("add")} />
+            <AddButton onPress={() => navigation.navigate("manage")} />
           ),
         })}
       />
@@ -72,10 +72,9 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="add"
-              component={AddScreen}
+              name="manage"
+              component={ManageScreen}
               options={{
-                title: "Add",
                 presentation: "modal",
               }}
             />

@@ -1,16 +1,23 @@
 import React, { PropsWithChildren } from "react";
 import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 type TProps = {
-  onPress?: () => void;
+  id: string;
   style?: ViewStyle;
 };
 
 const CardView: React.FC<PropsWithChildren<TProps>> = ({
   children,
   style,
-  onPress,
+  id,
 }) => {
+  const navigation = useNavigation<any>();
+
+  const pressHandler = () => {
+    navigation.navigate("manage", { id });
+  };
+
   return (
     <Pressable
       style={({ pressed }) => [
@@ -18,7 +25,7 @@ const CardView: React.FC<PropsWithChildren<TProps>> = ({
         styles.container,
         style,
       ]}
-      onPress={onPress}
+      onPress={pressHandler}
     >
       {children}
     </Pressable>

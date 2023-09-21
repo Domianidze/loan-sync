@@ -4,9 +4,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import CardView from "@/components/CardView";
 import { TLoan } from "@/types/data";
 
-const Loan: React.FC<TLoan> = ({ amount, loanee }) => {
+const Loan: React.FC<TLoan> = ({ id, amount, loanee }) => {
   return (
-    <CardView style={styles.container}>
+    <CardView style={styles.container} id={id}>
       <View style={styles.amountContainer}>
         <MaterialIcons name="attach-money" size={32} />
         <Text style={styles.amount}>{amount}</Text>

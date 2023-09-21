@@ -4,9 +4,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import CardView from "@/components/CardView";
 import { TLoanee } from "@/types/data";
 
-const Loanee: React.FC<TLoanee> = ({ name }) => {
+const Loanee: React.FC<TLoanee> = ({ id, name }) => {
   return (
-    <CardView style={styles.container}>
+    <CardView style={styles.container} id={id}>
       <MaterialIcons name="person" size={32} />
       <Text style={styles.name}>{name}</Text>
     </CardView>
