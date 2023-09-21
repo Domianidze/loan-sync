@@ -1,5 +1,12 @@
 import React, { PropsWithChildren } from "react";
-import { TLoanee, TLoan, TAddParams, TEditParams } from "@/types/data";
+import getDataType from "@/util/getDataType";
+import {
+  TLoanee,
+  TLoan,
+  TAddParams,
+  TEditParams,
+  TRemoveParams,
+} from "@/types/data";
 
 import DUMMY_DATA from "@/data/DUMMY_DATA";
 
@@ -8,11 +15,13 @@ const DataContext = React.createContext<{
   loans: TLoan[];
   add: ({}: TAddParams) => void;
   edit: ({}: TEditParams) => void;
+  remove: ({}: TRemoveParams) => void;
 }>({
   loanees: [],
   loans: [],
   add: () => {},
   edit: () => {},
+  remove: () => {},
 });
 
 export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
@@ -42,9 +51,9 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
   };
 
   const edit = ({ id, name, amount, loaneeId }: TEditParams) => {
-    const type = id.startsWith("le") ? "loanee" : "loan";
+    const dataType = getDataType(id);
 
-    if (type === "loanee") {
+    if (dataType === "loanee") {
       const loanee = loanees.findIndex((item) => item.id === id);
 
       if (!name || !loanee) return;
@@ -72,6 +81,24 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
     }
   };
 
+  const remove = ({ id }: TRemoveParams) => {
+    const dataType = getDataType(id);
+
+    if (dataType === "loanee") {
+      setLoanees((prevState) => {
+        const newState = prevState.filter((item) => item.id !== id);
+
+        return newState;
+      });
+    } else {
+      setLoans((prevState) => {
+        const newState = prevState.filter((item) => item.id !== id);
+
+        return newState;
+      });
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -79,6 +106,7 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
         loans,
         add,
         edit,
+        remove,
       }}
     >
       {props.children}

@@ -22,3 +22,7 @@ export type TEditParams = {
   amount?: number;
   loaneeId?: string;
 };
+
+export type TRemoveParams = {
+  id: string;
+};

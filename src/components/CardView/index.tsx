@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from "react";
-import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import UIPressable from "@/components/ui/Pressable";
 
 type TProps = {
   id: string;
@@ -19,16 +20,9 @@ const CardView: React.FC<PropsWithChildren<TProps>> = ({
   };
 
   return (
-    <Pressable
-      style={({ pressed }) => [
-        pressed ? styles.containerPressed : {},
-        styles.container,
-        style,
-      ]}
-      onPress={pressHandler}
-    >
+    <UIPressable style={[styles.container, style]} onPress={pressHandler}>
       {children}
-    </Pressable>
+    </UIPressable>
   );
 };
 
@@ -48,8 +42,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 1.0,
     elevation: 1,
-  },
-  containerPressed: {
-    opacity: 0.75,
   },
 });

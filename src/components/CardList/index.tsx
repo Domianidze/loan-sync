@@ -2,7 +2,7 @@ import React from "react";
 import { FlatList, View, StyleSheet, ListRenderItem } from "react-native";
 
 type TProps = {
-  data: ArrayLike<any> | null | undefined;
+  data: any[] | null | undefined;
   renderItem: ListRenderItem<any> | null | undefined;
 };
 

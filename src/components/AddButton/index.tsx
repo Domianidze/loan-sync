@@ -1,6 +1,7 @@
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import UIPressable from "../ui/Pressable";
 
 type TProps = {
   onPress?: () => void;
@@ -8,9 +9,9 @@ type TProps = {
 
 const AddButton: React.FC<TProps> = ({ onPress }) => {
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <UIPressable style={styles.container} onPress={onPress}>
       <MaterialIcons name="add" size={27.5} color="white" />
-    </Pressable>
+    </UIPressable>
   );
 };
 
