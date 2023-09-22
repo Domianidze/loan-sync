@@ -1,22 +1,25 @@
 import React from "react";
 import { View, Alert } from "react-native";
+import Picker from "react-native-picker-select";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MaterialIcons } from "@expo/vector-icons";
 import { RootStackParamList } from "@root/App";
 import DataContext from "@/state/DataContext";
 import UIPressable from "@/components/ui/Pressable";
-import { TLoan, TLoanee } from "@/types/data";
 import getDataType from "@/util/getDataType";
+import { TLoan, TLoanee } from "@/types/data";
+import LoaneeForm from "./components/LoaneeForm";
+import LoanForm from "./components/LoanForm";
 
 type TProps = NativeStackScreenProps<RootStackParamList, "manage">;
 
 const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
   const id = route?.params?.id;
-  const dataType = getDataType(id);
 
   const { loanees, loans, remove } = React.useContext(DataContext);
 
   const [data, setData] = React.useState<TLoanee | TLoan>();
+  const [dataType, setDataType] = React.useState<"loanee" | "loan">("loanee");
 
   const removeHandler = () => {
     if (!id || !dataType) return;
@@ -55,7 +58,13 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
   }, [id]);
 
   React.useEffect(() => {
-    if (!id || !dataType) return;
+    if (!id) return;
+
+    const dataType = getDataType(id);
+
+    if (!dataType) return;
+
+    setDataType(dataType);
 
     const data = (dataType === "loanee" ? loanees : loans).find(
       (item) => item.id === id
@@ -66,7 +75,22 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
     setData(data);
   }, [id, dataType]);
 
-  return <View></View>;
+  return (
+    <View>
+      <Picker
+        value={dataType}
+        placeholder={{}}
+        InputAccessoryView={() => null}
+        items={[
+          { label: "Loanee", value: "loanee" },
+          { label: "Loan", value: "loan" },
+        ]}
+        onValueChange={(value) => setDataType(value)}
+        disabled={!!id}
+      />
+      {dataType === "loanee" ? <LoaneeForm /> : <LoanForm />}
+    </View>
+  );
 };
 
 export default ManageScreen;
