@@ -83,20 +83,11 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
 
   const remove = ({ id }: TRemoveParams) => {
     const dataType = getDataType(id);
+    const setData = dataType === "loanee" ? setLoanees : setLoans;
 
-    if (dataType === "loanee") {
-      setLoanees((prevState) => {
-        const newState = prevState.filter((item) => item.id !== id);
-
-        return newState;
-      });
-    } else {
-      setLoans((prevState) => {
-        const newState = prevState.filter((item) => item.id !== id);
-
-        return newState;
-      });
-    }
+    setData((prevState: any[]) =>
+      prevState.filter((item: TLoan | TLoanee) => item.id !== id)
+    );
   };
 
   return (

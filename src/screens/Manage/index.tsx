@@ -18,7 +18,7 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
 
   const [data, setData] = React.useState<TLoanee | TLoan>();
 
-  const deleteHandler = () => {
+  const removeHandler = () => {
     if (!id || !dataType) return;
 
     const pressHandler = () => {
@@ -27,15 +27,15 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
     };
 
     Alert.alert(
-      `Delete ${dataType}`,
-      `Are you sure you want to delete this ${dataType}?`,
+      `Remove ${dataType}`,
+      `Are you sure you want to remove this ${dataType}?`,
       [
         {
           text: "Cancel",
         },
         {
           style: "destructive",
-          text: "Delete",
+          text: "Remove",
           onPress: pressHandler,
         },
       ]
@@ -47,7 +47,7 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
       title: id ? "Edit" : "Add",
       headerRight: () =>
         id && (
-          <UIPressable onPress={deleteHandler}>
+          <UIPressable onPress={removeHandler}>
             <MaterialIcons name="delete" size={24} color={"#ff3b30"} />
           </UIPressable>
         ),
