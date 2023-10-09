@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Alert } from "react-native";
-import Picker from "react-native-picker-select";
+import { View, Alert, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MaterialIcons } from "@expo/vector-icons";
 import { RootStackParamList } from "@root/App";
@@ -77,20 +77,25 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
 
   return (
     <View>
-      <Picker
-        value={dataType}
-        placeholder={{}}
-        InputAccessoryView={() => null}
-        items={[
-          { label: "Loanee", value: "loanee" },
-          { label: "Loan", value: "loan" },
-        ]}
-        onValueChange={(value) => setDataType(value)}
-        disabled={!!id}
-      />
+      {!id && (
+        <Picker
+          itemStyle={styles.pickerItem}
+          selectedValue={dataType}
+          onValueChange={(value: "loanee" | "loan") => setDataType(value)}
+        >
+          <Picker.Item label="Loanee" value="loanee" />
+          <Picker.Item label="Loan" value="loan" />
+        </Picker>
+      )}
       {dataType === "loanee" ? <LoaneeForm /> : <LoanForm />}
     </View>
   );
 };
 
 export default ManageScreen;
+
+const styles = StyleSheet.create({
+  pickerItem: {
+    height: 125,
+  },
+});
