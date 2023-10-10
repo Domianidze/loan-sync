@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Alert, StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";

@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loanee: {
-    opacity: 0.5,
+    color: "#8E8E8F",
   },
 });

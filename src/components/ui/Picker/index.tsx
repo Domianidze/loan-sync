@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   error: {
     padding: 12,
-    color: "#ff3b30",
+    color: "#FF3B30",
     textAlign: "center",
   },
   picker: {

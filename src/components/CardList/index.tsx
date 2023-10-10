@@ -1,18 +1,20 @@
 import React from "react";
-import { FlatList, View, StyleSheet, ListRenderItem } from "react-native";
+import { FlatList, View, Text, StyleSheet, ListRenderItem } from "react-native";
 
 type TProps = {
   data: any[] | null | undefined;
   renderItem: ListRenderItem<any> | null | undefined;
+  listEmpty?: string;
 };
 
-const CardList: React.FC<TProps> = ({ data, renderItem }) => {
+const CardList: React.FC<TProps> = ({ data, renderItem, listEmpty }) => {
   return (
     <FlatList
       style={styles.container}
       data={data}
       renderItem={renderItem}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ListEmptyComponent={<Text style={styles.listEmpty}>{listEmpty}</Text>}
     />
   );
 };
@@ -25,5 +27,10 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 16,
+  },
+  listEmpty: {
+    padding: 16,
+    color: "#8E8E8F",
+    textAlign: "center",
   },
 });

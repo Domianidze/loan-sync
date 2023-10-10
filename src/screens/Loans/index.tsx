@@ -7,7 +7,11 @@ const LoansScreen: React.FC = () => {
   const { loans } = React.useContext(DataContext);
 
   return (
-    <CardList data={loans} renderItem={({ item }) => <Loan {...item} />} />
+    <CardList
+      data={loans}
+      renderItem={({ item }) => <Loan {...item} />}
+      listEmpty="No Loans yet."
+    />
   );
 };
 

@@ -25,8 +25,8 @@ const DataContext = React.createContext<{
 });
 
 export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
-  const [loanees, setLoanees] = React.useState<TLoanee[]>(DUMMY_DATA.loanees);
-  const [loans, setLoans] = React.useState<TLoan[]>(DUMMY_DATA.loans);
+  const [loanees, setLoanees] = React.useState<TLoanee[]>([]);
+  const [loans, setLoans] = React.useState<TLoan[]>([]);
 
   const add = ({ type, name, amount, loaneeId }: TAddParams) => {
     if (type === "loanee") {

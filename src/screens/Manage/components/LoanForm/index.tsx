@@ -16,7 +16,7 @@ const LoanForm: React.FC = () => {
           value: loanee.id,
         }))}
         label="Loanee"
-        error="Please add a Loanee first!"
+        error="No Loanees found!"
       />
       <UITextField
         label="Amount"
