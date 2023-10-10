@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Alert, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
 import { RootStackParamList } from "@root/App";
 import DataContext from "@/state/DataContext";
 import UIPressable from "@/components/ui/Pressable";
+import UIPicker from "@/components/ui/Picker";
 import getDataType from "@/util/getDataType";
 import { TLoan, TLoanee } from "@/types/data";
 import LoaneeForm from "./components/LoaneeForm";
@@ -76,26 +77,32 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
   }, [id, dataType]);
 
   return (
-    <View>
+    <KeyboardAwareScrollView
+      style={styles.container}
+      extraHeight={200}
+      extraScrollHeight={40}
+    >
       {!id && (
-        <Picker
-          itemStyle={styles.pickerItem}
+        <UIPicker
+          items={[
+            { label: "Loanee", value: "loanee" },
+            { label: "Loan", value: "loan" },
+          ]}
+          label="Type"
           selectedValue={dataType}
           onValueChange={(value: "loanee" | "loan") => setDataType(value)}
-        >
-          <Picker.Item label="Loanee" value="loanee" />
-          <Picker.Item label="Loan" value="loan" />
-        </Picker>
+        />
       )}
       {dataType === "loanee" ? <LoaneeForm /> : <LoanForm />}
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 
 export default ManageScreen;
 
 const styles = StyleSheet.create({
-  pickerItem: {
-    height: 125,
+  container: {
+    padding: 16,
+    gap: 16,
   },
 });
