@@ -5,21 +5,21 @@ export type TLoanee = {
 
 export type TLoan = {
   id: string;
-  amount: number;
+  amount: string;
   loanee: TLoanee;
 };
 
 export type TAddParams = {
   type: "loanee" | "loan";
   name?: string;
-  amount?: number;
+  amount?: string;
   loaneeId?: string;
 };
 
 export type TEditParams = {
   id: string;
   name?: string;
-  amount?: number;
+  amount?: string;
   loaneeId?: string;
 };
 

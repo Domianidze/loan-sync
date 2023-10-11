@@ -2,23 +2,21 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-type TProps = {
-  items: { label: string; value: string }[];
+type TProps<TValues> = {
+  items: { label: string; value: TValues }[];
   label?: string;
   error?: string;
-  selectedValue?: "loanee" | "loan" | undefined;
-  onValueChange?:
-    | ((itemValue: "loanee" | "loan", itemIndex: number) => void)
-    | undefined;
+  selectedValue?: TValues | undefined;
+  onValueChange?: ((itemValue: TValues, itemIndex: number) => void) | undefined;
 };
 
-const UIPicker: React.FC<TProps> = ({
+const UIPicker = <TValues extends string>({
   items,
   label,
   error,
   selectedValue,
   onValueChange,
-}) => {
+}: TProps<TValues>) => {
   return (
     <View>
       <Text style={styles.label}>{label}</Text>

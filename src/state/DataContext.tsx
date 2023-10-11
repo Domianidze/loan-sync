@@ -33,7 +33,7 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
       if (!name) return;
 
       setLoanees((prevState) => {
-        const id = `le${+prevState[0].id + 1}`;
+        const id = `le${prevState[0] ? +prevState[0].id + 1 : 1}`;
 
         return [{ id, name }, ...prevState];
       });
@@ -43,7 +43,7 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
       if (!amount || !loanee) return;
 
       setLoans((prevState) => {
-        const id = `l${+prevState[0].id + 1}`;
+        const id = `l${prevState[0] ? +prevState[0].id + 1 : 1}`;
 
         return [{ id, amount, loanee }, ...prevState];
       });
@@ -56,7 +56,7 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
     if (dataType === "loanee") {
       const loanee = loanees.findIndex((item) => item.id === id);
 
-      if (!name || !loanee) return;
+      if (!name || loanee === -1) return;
 
       setLoanees((prevState) => {
         const newState = [...prevState];
@@ -66,10 +66,10 @@ export const DataContextProvider: React.FC<PropsWithChildren> = (props) => {
         return newState;
       });
     } else {
-      const loan = loans.findIndex((item) => item.id === id);
       const loanee = loanees.find((item) => item.id === loaneeId);
+      const loan = loans.findIndex((item) => item.id === id);
 
-      if (!amount || !loanee || !loan) return;
+      if (!amount || !loanee || loan === -1) return;
 
       setLoans((prevState) => {
         const newState = [...prevState];

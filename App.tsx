@@ -10,7 +10,7 @@ import ManageScreen from "@/screens/Manage";
 import AddButton from "@/components/AddButton";
 
 export type RootStackParamList = {
-  home: undefined;
+  home: { screen: keyof HomeTabParamList };
   manage: { id?: string };
 };
 

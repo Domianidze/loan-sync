@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, StyleSheet } from "react-native";
+import { View, Alert, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -11,19 +11,38 @@ import getDataType from "@/util/getDataType";
 import { TLoan, TLoanee } from "@/types/data";
 import LoaneeForm from "./components/LoaneeForm";
 import LoanForm from "./components/LoanForm";
+import { TInputs } from "./types";
 
 type TProps = NativeStackScreenProps<RootStackParamList, "manage">;
 
 const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
   const id = route?.params?.id;
 
-  const { loanees, loans, remove } = React.useContext(DataContext);
+  const { loanees, loans, add, edit, remove } = React.useContext(DataContext);
 
   const [data, setData] = React.useState<TLoanee | TLoan>();
+  data;
   const [dataType, setDataType] = React.useState<"loanee" | "loan">("loanee");
 
+  const addHandler = (inputs: TInputs) => {
+    add({
+      type: dataType,
+      ...inputs,
+    });
+    navigation.navigate("home", { screen: `${dataType}s` });
+  };
+
+  const editHandler = (inputs: TInputs) => {
+    if (!id) return;
+
+    edit({ id, ...inputs });
+    navigation.goBack();
+  };
+
   const removeHandler = () => {
-    if (!id || !dataType) return;
+    if (!id) return;
+
+    const dataType = getDataType(id);
 
     const pressHandler = () => {
       remove({ id });
@@ -52,7 +71,7 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
       headerRight: () =>
         id && (
           <UIPressable onPress={removeHandler}>
-            <MaterialIcons name="delete" size={24} color={"#ff3b30"} />
+            <MaterialIcons name="delete" size={24} color={"#FF3B30"} />
           </UIPressable>
         ),
     });
@@ -76,24 +95,28 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
     setData(data);
   }, [id, dataType]);
 
+  const Form = dataType === "loanee" ? LoaneeForm : LoanForm;
+
   return (
-    <KeyboardAwareScrollView
-      style={styles.container}
-      extraHeight={200}
-      extraScrollHeight={40}
-    >
-      {!id && (
-        <UIPicker
-          items={[
-            { label: "Loanee", value: "loanee" },
-            { label: "Loan", value: "loan" },
-          ]}
-          label="Type"
-          selectedValue={dataType}
-          onValueChange={(value: "loanee" | "loan") => setDataType(value)}
+    <KeyboardAwareScrollView extraHeight={200} extraScrollHeight={20}>
+      <View style={styles.container}>
+        {!id && (
+          <UIPicker
+            items={[
+              { label: "Loanee", value: "loanee" },
+              { label: "Loan", value: "loan" },
+            ]}
+            label="Type"
+            selectedValue={dataType}
+            onValueChange={(value) => setDataType(value)}
+          />
+        )}
+        <Form
+          data={data}
+          loanees={loanees}
+          onDone={id ? editHandler : addHandler}
         />
-      )}
-      {dataType === "loanee" ? <LoaneeForm /> : <LoanForm />}
+      </View>
     </KeyboardAwareScrollView>
   );
 };

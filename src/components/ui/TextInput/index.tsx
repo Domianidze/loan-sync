@@ -6,6 +6,8 @@ import {
   StyleSheet,
   KeyboardType,
   ReturnKeyType,
+  NativeSyntheticEvent,
+  TextInputSubmitEditingEventData,
 } from "react-native";
 
 type TProps = {
@@ -13,6 +15,11 @@ type TProps = {
   placeholder?: string;
   keyboardType?: KeyboardType;
   returnKeyType?: ReturnKeyType;
+  value?: string;
+  onChangeText?: ((text: string) => void) | undefined;
+  onSubmitEditing?:
+    | ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void)
+    | undefined;
 };
 
 const UITextField: React.FC<TProps> = ({
@@ -20,6 +27,9 @@ const UITextField: React.FC<TProps> = ({
   placeholder,
   keyboardType,
   returnKeyType,
+  value,
+  onChangeText,
+  onSubmitEditing,
 }) => {
   return (
     <View style={styles.container}>
@@ -29,6 +39,9 @@ const UITextField: React.FC<TProps> = ({
         placeholder={placeholder}
         keyboardType={keyboardType}
         returnKeyType={returnKeyType}
+        value={value}
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
       />
     </View>
   );
