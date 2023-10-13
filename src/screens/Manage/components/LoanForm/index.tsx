@@ -15,7 +15,7 @@ type TProps = {
 
 const LoanForm: React.FC<TProps> = ({ data, loanees, onDone }) => {
   const [inputs, setInputs] = React.useState<TInputs>({
-    loaneeId: loanees[0].id,
+    loaneeId: loanees[0]?.id,
   });
 
   const doneHandler = () => {

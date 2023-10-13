@@ -7,7 +7,6 @@ import { RootStackParamList } from "@root/App";
 import DataContext from "@/state/DataContext";
 import UIPressable from "@/components/ui/Pressable";
 import UIPicker from "@/components/ui/Picker";
-import getDataType from "@/util/getDataType";
 import { TLoan, TLoanee } from "@/types/data";
 import LoaneeForm from "./components/LoaneeForm";
 import LoanForm from "./components/LoanForm";
@@ -22,36 +21,35 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
 
   const [data, setData] = React.useState<TLoanee | TLoan>();
   data;
-  const [dataType, setDataType] = React.useState<"loanee" | "loan">("loanee");
+  const [type, setType] = React.useState<"loanee" | "loan">("loanee");
 
   const addHandler = (inputs: TInputs) => {
+    8;
     add({
-      type: dataType,
+      type: type,
       ...inputs,
     });
-    navigation.navigate("home", { screen: `${dataType}s` });
+    navigation.navigate("home", { screen: `${type}s` });
   };
 
   const editHandler = (inputs: TInputs) => {
-    if (!id) return;
+    if (!data) return;
 
-    edit({ id, ...inputs });
+    edit({ id: data.id, type: data.type, ...inputs });
     navigation.goBack();
   };
 
   const removeHandler = () => {
-    if (!id) return;
-
-    const dataType = getDataType(id);
+    if (!data) return;
 
     const pressHandler = () => {
-      remove({ id });
+      remove({ id: data.id, type: data.type });
       navigation.goBack();
     };
 
     Alert.alert(
-      `Remove ${dataType}`,
-      `Are you sure you want to remove this ${dataType}?`,
+      `Remove ${data.type}`,
+      `Are you sure you want to remove this ${data.type}?`,
       [
         {
           text: "Cancel",
@@ -75,27 +73,20 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
           </UIPressable>
         ),
     });
-  }, [id]);
+  }, [data]);
 
   React.useEffect(() => {
     if (!id) return;
 
-    const dataType = getDataType(id);
-
-    if (!dataType) return;
-
-    setDataType(dataType);
-
-    const data = (dataType === "loanee" ? loanees : loans).find(
-      (item) => item.id === id
-    );
+    const data = [...loanees, ...loans].find((item) => item.id === id);
 
     if (!data) return;
 
     setData(data);
-  }, [id, dataType]);
+    setType(data.type);
+  }, [id, type]);
 
-  const Form = dataType === "loanee" ? LoaneeForm : LoanForm;
+  const Form = type === "loanee" ? LoaneeForm : LoanForm;
 
   return (
     <KeyboardAwareScrollView extraHeight={200} extraScrollHeight={20}>
@@ -107,8 +98,8 @@ const ManageScreen: React.FC<TProps> = ({ navigation, route }) => {
               { label: "Loan", value: "loan" },
             ]}
             label="Type"
-            selectedValue={dataType}
-            onValueChange={(value) => setDataType(value)}
+            selectedValue={type}
+            onValueChange={(value) => setType(value)}
           />
         )}
         <Form
