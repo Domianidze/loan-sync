@@ -1,3 +1,4 @@
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
@@ -7,6 +8,7 @@ import { DataContextProvider } from "@/state/DataContext";
 import LoansScreen from "@/screens/Loans";
 import LoaneesScreen from "@/screens/Loanees";
 import ManageScreen from "@/screens/Manage";
+import Loading from "@/components/Loading";
 import AddButton from "@/components/AddButton";
 
 export type RootStackParamList = {
@@ -64,6 +66,7 @@ export default function App() {
     <>
       <StatusBar />
       <DataContextProvider>
+        <Loading />
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
